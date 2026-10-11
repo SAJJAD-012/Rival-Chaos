@@ -201,6 +201,9 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.85rem;
     }
+    .feature-grid.full {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
     .feature {
       padding: 1.25rem;
       border: 1px solid var(--line);
@@ -323,6 +326,22 @@
     .g.c { grid-column: span 5; min-height: 175px; }
     .g.d, .g.e, .g.f, .g.g, .g.h { grid-column: span 3; min-height: 180px; }
     .g.i, .g.j { grid-column: span 6; min-height: 200px; }
+    .g.wide { grid-column: span 6; min-height: 220px; }
+    .g.third { grid-column: span 4; min-height: 200px; }
+    .lang-tabs {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .lang-tabs button {
+      font: inherit; font-weight: 800; font-size: 0.82rem;
+      padding: 0.55rem 1rem; border-radius: 999px; cursor: pointer;
+      border: 1px solid var(--line); background: transparent; color: var(--muted);
+    }
+    .lang-tabs button.active {
+      background: var(--cyan); color: var(--ink); border-color: transparent;
+    }
+    .gallery-pane { display: none; }
+    .gallery-pane.active { display: block; }
 
     .trailer {
       margin-top: 1.1rem;
@@ -387,12 +406,12 @@
     footer strong { color: var(--sand); }
 
     @media (max-width: 980px) {
-      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .feature-grid, .feature-grid.full { grid-template-columns: 1fr 1fr; }
       .rules-grid, .offer-grid, .cta-box { grid-template-columns: 1fr; }
       .monster-row { grid-template-columns: repeat(3, 1fr); }
       .g.a { grid-column: span 12; min-height: 260px; }
-      .g.b, .g.c, .g.i, .g.j { grid-column: span 6; }
-      .g.d, .g.e, .g.f, .g.g, .g.h { grid-column: span 4; }
+      .g.b, .g.c, .g.i, .g.j, .g.wide { grid-column: span 6; }
+      .g.d, .g.e, .g.f, .g.g, .g.h, .g.third { grid-column: span 4; }
     }
     @media (max-width: 720px) {
       .nav-toggle { display: inline-flex; }
@@ -408,8 +427,8 @@
         align-items: stretch;
       }
       .nav-links.open { display: flex; }
-      .feature-grid, .monster-row { grid-template-columns: 1fr 1fr; }
-      .g.b, .g.c, .g.d, .g.e, .g.f, .g.g, .g.h, .g.i, .g.j { grid-column: span 12; }
+      .feature-grid, .feature-grid.full, .monster-row { grid-template-columns: 1fr 1fr; }
+      .g.b, .g.c, .g.d, .g.e, .g.f, .g.g, .g.h, .g.i, .g.j, .g.wide, .g.third { grid-column: span 12; }
       .btn { width: 100%; }
       .hero-actions { flex-direction: column; }
     }
@@ -438,7 +457,7 @@
 
   <section class="hero" id="top">
     <div class="hero-media">
-      <video autoplay muted loop playsinline poster="media/ui-menu.jpg">
+      <video autoplay muted loop playsinline poster="media/en-menu.jpg">
         <source src="media/gameplay-trailer.mp4" type="video/mp4" />
       </video>
     </div>
@@ -463,30 +482,70 @@
     <section class="features" id="features">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Product highlights</p>
-          <h2>Everything a buyer wants to see</h2>
-          <p>Deep content, dual builds, competitive loops, and a monetization-ready shop — already playable.</p>
+          <p class="eyebrow">All features · كل المميزات</p>
+          <h2>Complete product feature set</h2>
+          <p>Everything shipping in Rival Chaos v2.3.52 — content, modes, economy, audio, builds.</p>
         </div>
-        <div class="feature-grid">
+        <div class="feature-grid full">
           <article class="feature">
             <b>01</b>
-            <h3>500+ 3D cards</h3>
-            <p>420 monsters, 60 spells, 24 traps with art packs, rarity tiers, and gallery filters.</p>
+            <h3>504 unique cards</h3>
+            <p>420 monsters · 60 spells · 24 traps. Multi-pack art (GLB + raster), rarity tiers from Common to Celestial, searchable gallery filters.</p>
           </article>
           <article class="feature">
             <b>02</b>
-            <h3>PC &amp; Android</h3>
-            <p>Electron portable EXE + Capacitor APK from one shared web game core.</p>
+            <h3>3D duel field</h3>
+            <p>three.js presentation, monster / spell-trap zones, graveyard, deck counters, hand drag, summon &amp; battle phases.</p>
           </article>
           <article class="feature">
             <b>03</b>
-            <h3>AR + EN UI</h3>
-            <p>Full bilingual interface and card text — MENA-ready with expansion hooks.</p>
+            <h3>Arabic + English</h3>
+            <p>Full bilingual UI and card text (ar default / en). Instant language switch — ready for MENA + global EN.</p>
           </article>
           <article class="feature">
             <b>04</b>
-            <h3>PvP stakes</h3>
-            <p>Level-based matchmaking with 1K and 5K stake modes, 30s turns, card rewards.</p>
+            <h3>Rival Path campaign</h3>
+            <p>70 AI rival stages across worlds, difficulty scaling, pressure costs, unlock titles (e.g. Shadow Hunter).</p>
+          </article>
+          <article class="feature">
+            <b>05</b>
+            <h3>PvP stake matchmaking</h3>
+            <p>Level-based live search UX. Standard 1,000→2,000 or High 5,000→10,000 · 30s turns · card rewards.</p>
+          </article>
+          <article class="feature">
+            <b>06</b>
+            <h3>Battery energy system</h3>
+            <p>100 base battery · −10 per duel · +20/h regen · 9 battery pack SKUs for session monetization.</p>
+          </article>
+          <article class="feature">
+            <b>07</b>
+            <h3>Dual-currency economy</h3>
+            <p>Coins (soft) + Quartz (hard). Quartz packs $4.9 / $29 / $99 with +10% bonus · Quartz↔coins exchange.</p>
+          </article>
+          <article class="feature">
+            <b>08</b>
+            <h3>Shop &amp; featured offers</h3>
+            <p>Bahamoth featured offer, season packs, Cable Hydra legendary bundles, epic/legendary card picks, coin catalog.</p>
+          </article>
+          <article class="feature">
+            <b>09</b>
+            <h3>Cosmetics &amp; identity</h3>
+            <p>10 avatars · 6 crowns · 20 wing/frames (incl. 3D packs) · 9 name styles · profile ranks &amp; titles.</p>
+          </article>
+          <article class="feature">
+            <b>10</b>
+            <h3>Dual-gender voice</h3>
+            <p>1,997 MP3 clips · male/female VO system · ElevenLabs regeneration scripts included.</p>
+          </article>
+          <article class="feature">
+            <b>11</b>
+            <h3>PC + Android builds</h3>
+            <p>Electron 33 portable EXE + Capacitor 8 APK from one HTML/CSS/JS core. Shared feature parity.</p>
+          </article>
+          <article class="feature">
+            <b>12</b>
+            <h3>Meta loops</h3>
+            <p>Deck builder · achievements · daily login · luck wheel · XP/levels · VPN plan entitlement flag.</p>
           </article>
         </div>
       </div>
@@ -501,7 +560,7 @@
         </div>
         <div class="rules-grid">
           <article class="rule-card">
-            <img src="media/ui-pvp.jpg" alt="PvP matchmaking stakes screen" width="1200" height="700" loading="lazy" />
+            <img src="media/en-pvp.jpg" alt="English PvP stakes screen" width="1200" height="700" loading="lazy" />
             <div class="rule-body">
               <h3>PvP matchmaking</h3>
               <ol>
@@ -518,13 +577,13 @@
             </div>
           </article>
           <article class="rule-card">
-            <img src="media/ui-menu.jpg" alt="Main menu campaign and modes" width="1200" height="700" loading="lazy" />
+            <img src="media/ar-rivals.jpg" alt="Arabic Rival Path campaign" width="1200" height="700" loading="lazy" />
             <div class="rule-body">
               <h3>Campaign &amp; energy</h3>
               <ul>
-                <li><strong>Choose Rival</strong> — climb world stages with rising AI difficulty.</li>
-                <li><strong>Battery</strong> — 100 base energy, −10 per duel, regenerates over time.</li>
-                <li><strong>Deck building</strong> — build from owned cards (55-slot style deck tools).</li>
+                <li><strong>Rival Path</strong> — 70 AI stages · worlds · difficulty scaling · unlock titles.</li>
+                <li><strong>Battery</strong> — 100 base energy, −10 per duel, +20/h regen.</li>
+                <li><strong>Deck building</strong> — build from owned cards with deck tools.</li>
                 <li><strong>Progression</strong> — XP, titles, achievements unlock rewards.</li>
               </ul>
               <div class="chips">
@@ -568,7 +627,7 @@
           </article>
         </div>
         <div style="margin-top:1rem" class="panel">
-          <img src="media/ui-offer.jpg" alt="In-game legendary offer popup" width="1400" height="800" loading="lazy" />
+          <img src="media/en-shop.jpg" alt="English shop Quartz packs and Bahamoth offer" width="1400" height="800" loading="lazy" />
         </div>
       </div>
     </section>
@@ -576,21 +635,39 @@
     <section id="gallery">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Visual proof</p>
-          <h2>Gallery</h2>
-          <p>Real captures from inside Rival Chaos — UI, modes, and card art.</p>
+          <p class="eyebrow">Visual proof · إثبات بصري</p>
+          <h2>Bilingual gallery</h2>
+          <p>Same screens captured in Arabic and English — menu, rivals, PvP, shop, gallery, and live duel gameplay.</p>
         </div>
-        <div class="gallery-grid">
-          <div class="g a" style="background-image:url('media/ui-gallery.jpg')" data-label="Card Gallery · 501 cards filtered"></div>
-          <div class="g b" style="background-image:url('media/ui-menu.jpg')" data-label="Main menu · campaign + PvP"></div>
-          <div class="g c" style="background-image:url('media/ui-pvp.jpg')" data-label="PvP stakes · 1K / 5K"></div>
-          <div class="g d" style="background-image:url('media/monster-01.jpg')" data-label="Bahamoth"></div>
-          <div class="g e" style="background-image:url('media/monster-03.jpg')" data-label="Cable Hydra"></div>
-          <div class="g f" style="background-image:url('media/monster-07.jpg')" data-label="Titan"></div>
-          <div class="g g" style="background-image:url('media/monster-04.jpg')" data-label="Apex"></div>
-          <div class="g h" style="background-image:url('media/ui-daily.jpg')" data-label="Daily login rewards"></div>
-          <div class="g i" style="background-image:url('media/ui-battle-01.jpg')" data-label="Gameplay capture"></div>
-          <div class="g j" style="background-image:url('media/ui-offer.jpg')" data-label="Legendary offer UI"></div>
+        <div class="lang-tabs" role="tablist" aria-label="Gallery language">
+          <button type="button" class="active" data-pane="ar" aria-selected="true">العربية · Arabic UI</button>
+          <button type="button" data-pane="en" aria-selected="false">English UI</button>
+        </div>
+
+        <div class="gallery-pane active" id="pane-ar">
+          <div class="gallery-grid">
+            <div class="g a" style="background-image:url('media/ar-duel-play.jpg')" data-label="طور اللعب · مرحلة القتال + وحش على الملعب"></div>
+            <div class="g b" style="background-image:url('media/ar-menu.jpg')" data-label="القائمة الرئيسية · Rival Chaos"></div>
+            <div class="g c" style="background-image:url('media/ar-rivals.jpg')" data-label="مسار الخصوم · 0/70"></div>
+            <div class="g wide" style="background-image:url('media/ar-duel.jpg')" data-label="المبارزة · المرحلة الرئيسية + اليد"></div>
+            <div class="g wide" style="background-image:url('media/ar-pvp.jpg')" data-label="لاعب ضد لاعب · رهان 1K / 5K"></div>
+            <div class="g third" style="background-image:url('media/ar-gallery.jpg')" data-label="معرض البطاقات · فلاتر العناصر"></div>
+            <div class="g third" style="background-image:url('media/ar-shop.jpg')" data-label="المتجر · باقات الكوارتز + عرض باهاموث"></div>
+            <div class="g third" style="background-image:url('media/monster-01.jpg')" data-label="Bahamoth · بطاقة أسطورية"></div>
+          </div>
+        </div>
+
+        <div class="gallery-pane" id="pane-en">
+          <div class="gallery-grid">
+            <div class="g a" style="background-image:url('media/en-duel-play.jpg')" data-label="Gameplay · Battle Phase + Ironhorn on field"></div>
+            <div class="g b" style="background-image:url('media/en-menu.jpg')" data-label="Main menu · Choose Rival + PvP"></div>
+            <div class="g c" style="background-image:url('media/en-rivals.jpg')" data-label="Rival Path · 0/70 stages"></div>
+            <div class="g wide" style="background-image:url('media/en-duel.jpg')" data-label="Duel · Main Phase + hand"></div>
+            <div class="g wide" style="background-image:url('media/en-pvp.jpg')" data-label="Player vs Player · 1K / 5K stakes"></div>
+            <div class="g third" style="background-image:url('media/en-gallery.jpg')" data-label="Card Gallery · element filters"></div>
+            <div class="g third" style="background-image:url('media/en-shop.jpg')" data-label="Shop · Quartz packs + Bahamoth"></div>
+            <div class="g third" style="background-image:url('media/monster-03.jpg')" data-label="Cable Hydra · legendary art"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -603,7 +680,7 @@
           <p>H.264 web-ready clip — autoplays muted in the hero, plays with controls here.</p>
         </div>
         <div class="trailer">
-          <video controls playsinline preload="metadata" poster="media/ui-menu.jpg">
+          <video controls playsinline preload="metadata" poster="media/en-duel-play.jpg">
             <source src="media/gameplay-trailer.mp4" type="video/mp4" />
           </video>
         </div>
@@ -658,6 +735,20 @@
     toggle?.addEventListener("click", () => links.classList.toggle("open"));
     links?.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", () => links.classList.remove("open"));
+    });
+
+    document.querySelectorAll(".lang-tabs button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const pane = btn.getAttribute("data-pane");
+        document.querySelectorAll(".lang-tabs button").forEach((b) => {
+          const on = b === btn;
+          b.classList.toggle("active", on);
+          b.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        document.querySelectorAll(".gallery-pane").forEach((p) => {
+          p.classList.toggle("active", p.id === "pane-" + pane);
+        });
+      });
     });
 
     const sections = [...document.querySelectorAll("section[id]")];
