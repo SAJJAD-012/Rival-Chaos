@@ -1,0 +1,471 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rival Chaos — Turnkey 3D Card Duel Game</title>
+  <meta name="description" content="Acquire Rival Chaos: 500+ unique 3D cards, dual PC & Android builds, bilingual localization, and competitive PvP matchmaking — a turnkey card battler ready to launch." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0c1014;
+      --ink-2: #151c24;
+      --panel: #1a232e;
+      --line: rgba(232, 212, 176, 0.16);
+      --sand: #e8d4b0;
+      --sand-dim: #b9a586;
+      --ember: #e85d2a;
+      --ember-deep: #b33d14;
+      --teal: #2ec4a2;
+      --text: #f3efe6;
+      --muted: #9aa7b5;
+      --max: 1120px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Manrope, sans-serif;
+      color: var(--text);
+      background: var(--ink);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    /* —— Hero: one composition, brand-first, full-bleed —— */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      align-items: end;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(900px 500px at 80% 20%, rgba(232, 93, 42, 0.28), transparent 55%),
+        radial-gradient(700px 420px at 15% 70%, rgba(46, 196, 162, 0.14), transparent 50%),
+        linear-gradient(165deg, #18202a 0%, var(--ink) 48%, #070a0d 100%);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(12, 16, 20, 0.15) 0%, rgba(12, 16, 20, 0.55) 55%, rgba(12, 16, 20, 0.92) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23e8d4b0' stroke-opacity='0.05'%3E%3Cpath d='M0 40h160M0 80h160M0 120h160M40 0v160M80 0v160M120 0v160'/%3E%3C/g%3E%3C/svg%3E");
+      z-index: -1;
+    }
+    .hero-orb {
+      position: absolute;
+      width: min(58vw, 620px);
+      aspect-ratio: 1;
+      right: -6%;
+      top: 8%;
+      border-radius: 40% 60% 55% 45%;
+      background:
+        conic-gradient(from 210deg, rgba(232,93,42,0.35), transparent 40%, rgba(46,196,162,0.25), transparent 75%),
+        radial-gradient(circle at 40% 40%, rgba(232,212,176,0.18), transparent 60%);
+      filter: blur(2px);
+      animation: drift 14s var(--ease) infinite alternate;
+      z-index: -1;
+      pointer-events: none;
+    }
+    @keyframes drift {
+      from { transform: translate3d(0, 0, 0) rotate(0deg); }
+      to { transform: translate3d(-3%, 4%, 0) rotate(8deg); }
+    }
+
+    .hero-inner {
+      padding: clamp(5.5rem, 12vh, 8rem) 0 clamp(3.5rem, 8vh, 5.5rem);
+      max-width: 38rem;
+    }
+    .brand {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(4.2rem, 12vw, 7.5rem);
+      letter-spacing: 0.04em;
+      line-height: 0.9;
+      color: var(--sand);
+      text-wrap: balance;
+      animation: rise 0.9s var(--ease) both;
+    }
+    .tagline {
+      margin-top: 1.15rem;
+      font-size: clamp(1.05rem, 2.1vw, 1.3rem);
+      font-weight: 500;
+      color: var(--text);
+      max-width: 28ch;
+      animation: rise 0.9s var(--ease) 0.12s both;
+    }
+    .tagline em {
+      font-style: normal;
+      color: var(--ember);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 2rem;
+      animation: rise 0.9s var(--ease) 0.22s both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 3.1rem;
+      padding: 0.85rem 1.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease);
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--ember) 0%, var(--ember-deep) 100%);
+      color: #fff8f2;
+      box-shadow: 0 10px 28px rgba(232, 93, 42, 0.28);
+    }
+    .btn-primary:hover { background: linear-gradient(135deg, #ff6a33 0%, var(--ember) 100%); }
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--sand);
+    }
+    .btn-ghost:hover { border-color: var(--sand-dim); }
+
+    .scroll-cue {
+      position: absolute;
+      left: 50%;
+      bottom: 1.25rem;
+      transform: translateX(-50%);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 0.9; }
+    }
+
+    /* —— Sections —— */
+    section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+    .section-head {
+      max-width: 36rem;
+      margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+    }
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.65rem;
+    }
+    h2 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      color: var(--sand);
+    }
+    .section-head p {
+      margin-top: 0.85rem;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .features {
+      background:
+        linear-gradient(180deg, #0c1014 0%, #111821 40%, #0c1014 100%);
+      border-block: 1px solid var(--line);
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .feature {
+      padding: 1.35rem 1.3rem 1.45rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: linear-gradient(160deg, rgba(26, 35, 46, 0.95), rgba(12, 16, 20, 0.65));
+      transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+    }
+    .feature:hover {
+      border-color: rgba(232, 93, 42, 0.45);
+      transform: translateY(-3px);
+    }
+    .feature-num {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 2rem;
+      color: var(--ember);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 0.55rem;
+    }
+    .feature h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    .feature p {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .showcase { background: var(--ink); }
+    .gallery {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 0.85rem;
+    }
+    .shot {
+      position: relative;
+      min-height: 180px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: var(--panel) center/cover no-repeat;
+      overflow: hidden;
+      display: grid;
+      align-items: end;
+    }
+    .shot.wide { grid-column: 1 / 2; grid-row: 1 / 3; min-height: 380px; }
+    .shot .cap {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: linear-gradient(180deg, transparent, rgba(8, 10, 14, 0.92));
+    }
+    .shot strong {
+      display: block;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      color: var(--sand);
+      margin-bottom: 0.15rem;
+    }
+    .shot span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .trailer-wrap {
+      margin-top: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+    }
+    .trailer-wrap video {
+      display: block;
+      width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .cta {
+      background:
+        radial-gradient(600px 240px at 50% 0%, rgba(232, 93, 42, 0.22), transparent 70%),
+        linear-gradient(180deg, #121820, var(--ink));
+      border-top: 1px solid var(--line);
+    }
+    .cta-box {
+      display: grid;
+      gap: 1.25rem;
+      align-items: center;
+      padding: clamp(1.75rem, 4vw, 2.5rem);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(26, 35, 46, 0.55);
+    }
+    .cta-box h2 { max-width: 14ch; }
+    .cta-box p { color: var(--muted); max-width: 42ch; }
+
+    footer {
+      padding: 1.5rem 0 2.25rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    footer strong { color: var(--sand-dim); font-weight: 600; }
+
+    @media (max-width: 860px) {
+      .feature-grid { grid-template-columns: 1fr; }
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .shot.wide {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        min-height: 240px;
+      }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(var(--max), calc(100% - 1.5rem)); }
+      .hero-inner { max-width: none; }
+      .gallery { grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+      .hero-actions { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="hero-orb" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <h1 class="brand">Rival Chaos</h1>
+      <p class="tagline">
+        A turnkey 3D card battler built to launch —
+        <em>collect, duel, dominate</em>.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#acquire">Request Access / Acquire Asset</a>
+        <a class="btn btn-ghost" href="#features">Explore features</a>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">Scroll</div>
+  </header>
+
+  <main>
+    <section class="features" id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Why operators buy this</p>
+          <h2>Built to convert players — and buyers</h2>
+          <p>A finished dual-platform card game shell with deep content, competitive loops, and monetization-ready systems.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="feature-num">01</div>
+            <h3>500+ unique 3D cards</h3>
+            <p>A massive catalog of monsters, spells, and traps with production art and duel-ready stats — content depth that usually takes years.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-num">02</div>
+            <h3>Dual PC &amp; Android builds</h3>
+            <p>Ship on Windows portable EXE and Android APK from one shared game core — faster updates, wider reach.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-num">03</div>
+            <h3>Localization system</h3>
+            <p>Arabic &amp; English live in-product, with a structured i18n layer ready to expand into additional markets.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-num">04</div>
+            <h3>PvP matchmaking</h3>
+            <p>Level-based matchmaking with standard and high-stakes modes — competitive pressure that keeps sessions sticky.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="showcase" id="showcase">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Visual proof</p>
+          <h2>Gameplay &amp; 3D showcase</h2>
+          <p>Real captures from Rival Chaos — menu, 500+ card gallery, featured monsters, and a short gameplay trailer.</p>
+        </div>
+        <div class="gallery" aria-label="Rival Chaos showcase gallery">
+          <div class="shot wide" style="background-image:url('media/ui-gallery.jpg')">
+            <div class="cap">
+              <strong>Card Gallery — 501 cards</strong>
+              <span>Full catalog with rarity &amp; element filters</span>
+            </div>
+          </div>
+          <div class="shot" style="background-image:url('media/monster-01.jpg')">
+            <div class="cap">
+              <strong>Bahamoth</strong>
+              <span>Featured legendary / season offer</span>
+            </div>
+          </div>
+          <div class="shot" style="background-image:url('media/monster-03.jpg')">
+            <div class="cap">
+              <strong>Cable Hydra</strong>
+              <span>Legendary monster art</span>
+            </div>
+          </div>
+          <div class="shot" style="background-image:url('media/ui-menu.jpg')">
+            <div class="cap">
+              <strong>Main Menu</strong>
+              <span>Campaign · PvP · Shop · Cosmetics</span>
+            </div>
+          </div>
+          <div class="shot" style="background-image:url('media/ui-daily.jpg')">
+            <div class="cap">
+              <strong>Daily Rewards</strong>
+              <span>Retention loop · coins &amp; quartz</span>
+            </div>
+          </div>
+        </div>
+        <div class="trailer-wrap">
+          <video controls playsinline preload="metadata" poster="media/ui-menu.jpg">
+            <source src="media/gameplay-trailer.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="acquire">
+      <div class="wrap">
+        <div class="cta-box">
+          <div>
+            <p class="eyebrow">Acquisition</p>
+            <h2>Ready for Escrow transfer</h2>
+            <p>
+              Source, dual build pipelines, card economy, voice pack, and sale documentation included.
+              Serious buyers: request access for a private demo and asset package.
+            </p>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="mailto:hello@rivalchaos.game?subject=Rival%20Chaos%20Acquire%20Asset">Request Access / Acquire Asset</a>
+            <a class="btn btn-ghost" href="#features">See key features</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><strong>Rival Chaos</strong> — turnkey 3D card duel game</p>
+      <p>PC · Android · 500+ cards · AR/EN</p>
+    </div>
+  </footer>
+</body>
+</html>
