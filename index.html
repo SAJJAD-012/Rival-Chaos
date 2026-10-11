@@ -4,29 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rival Chaos — Turnkey 3D Card Duel Game</title>
-  <meta name="description" content="Acquire Rival Chaos: 500+ unique 3D cards, dual PC & Android builds, bilingual localization, and competitive PvP matchmaking — a turnkey card battler ready to launch." />
+  <meta name="description" content="Rival Chaos: 500+ 3D cards, PC & Android builds, Arabic/English UI, PvP stakes, campaign rivals, Quartz shop, cosmetics — acquire a turnkey card battler." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --ink: #0c1014;
-      --ink-2: #151c24;
-      --panel: #1a232e;
-      --line: rgba(232, 212, 176, 0.16);
-      --sand: #e8d4b0;
-      --sand-dim: #b9a586;
+      --ink: #070b10;
+      --panel: #101820;
+      --panel-2: #16212c;
+      --line: rgba(190, 230, 220, 0.14);
+      --cyan: #2ee6c5;
+      --cyan-dim: #1aa890;
+      --sand: #e7d7b5;
+      --gold: #d4a24c;
       --ember: #e85d2a;
-      --ember-deep: #b33d14;
-      --teal: #2ec4a2;
-      --text: #f3efe6;
-      --muted: #9aa7b5;
-      --max: 1120px;
+      --text: #eef4f2;
+      --muted: #8fa3ad;
+      --max: 1180px;
+      --nav-h: 68px;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); }
     body {
       font-family: Manrope, sans-serif;
       color: var(--text);
@@ -34,427 +34,611 @@
       line-height: 1.55;
       overflow-x: hidden;
     }
-    img { max-width: 100%; display: block; }
+    img, video { max-width: 100%; display: block; }
     a { color: inherit; text-decoration: none; }
+    .wrap { width: min(var(--max), calc(100% - 2rem)); margin-inline: auto; }
 
-    .wrap {
-      width: min(var(--max), calc(100% - 2.5rem));
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      height: var(--nav-h);
+      display: flex; align-items: center;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 11, 16, 0.78);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      width: min(var(--max), calc(100% - 2rem));
       margin-inline: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .logo {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.55rem;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+    }
+    .nav-links {
+      display: flex; flex-wrap: wrap; gap: 0.15rem 0.35rem;
+      align-items: center;
+    }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      transition: color .2s var(--ease), background .2s var(--ease);
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--ink);
+      background: var(--cyan);
+    }
+    .nav-cta {
+      font-size: 0.82rem !important;
+      font-weight: 800 !important;
+      color: var(--ink) !important;
+      background: linear-gradient(135deg, var(--gold), #b8842e) !important;
+    }
+    .nav-toggle {
+      display: none;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--text);
+      padding: 0.45rem 0.7rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
     }
 
-    /* —— Hero: one composition, brand-first, full-bleed —— */
+    /* Hero */
     .hero {
       position: relative;
-      min-height: 100svh;
+      min-height: calc(100svh - var(--nav-h));
       display: grid;
       align-items: end;
       isolation: isolate;
       overflow: hidden;
-      background:
-        radial-gradient(900px 500px at 80% 20%, rgba(232, 93, 42, 0.28), transparent 55%),
-        radial-gradient(700px 420px at 15% 70%, rgba(46, 196, 162, 0.14), transparent 50%),
-        linear-gradient(165deg, #18202a 0%, var(--ink) 48%, #070a0d 100%);
     }
-    .hero::before {
+    .hero-media {
+      position: absolute; inset: 0; z-index: -2;
+    }
+    .hero-media video, .hero-media img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .hero::after {
       content: "";
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0; z-index: -1;
       background:
-        linear-gradient(180deg, rgba(12, 16, 20, 0.15) 0%, rgba(12, 16, 20, 0.55) 55%, rgba(12, 16, 20, 0.92) 100%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23e8d4b0' stroke-opacity='0.05'%3E%3Cpath d='M0 40h160M0 80h160M0 120h160M40 0v160M80 0v160M120 0v160'/%3E%3C/g%3E%3C/svg%3E");
-      z-index: -1;
+        linear-gradient(100deg, rgba(7,11,16,0.92) 0%, rgba(7,11,16,0.72) 42%, rgba(7,11,16,0.35) 100%),
+        linear-gradient(180deg, transparent 40%, rgba(7,11,16,0.95) 100%);
     }
-    .hero-orb {
-      position: absolute;
-      width: min(58vw, 620px);
-      aspect-ratio: 1;
-      right: -6%;
-      top: 8%;
-      border-radius: 40% 60% 55% 45%;
-      background:
-        conic-gradient(from 210deg, rgba(232,93,42,0.35), transparent 40%, rgba(46,196,162,0.25), transparent 75%),
-        radial-gradient(circle at 40% 40%, rgba(232,212,176,0.18), transparent 60%);
-      filter: blur(2px);
-      animation: drift 14s var(--ease) infinite alternate;
-      z-index: -1;
-      pointer-events: none;
-    }
-    @keyframes drift {
-      from { transform: translate3d(0, 0, 0) rotate(0deg); }
-      to { transform: translate3d(-3%, 4%, 0) rotate(8deg); }
-    }
-
     .hero-inner {
-      padding: clamp(5.5rem, 12vh, 8rem) 0 clamp(3.5rem, 8vh, 5.5rem);
-      max-width: 38rem;
+      padding: clamp(4rem, 10vh, 7rem) 0 clamp(3rem, 7vh, 4.5rem);
+      max-width: 40rem;
+      animation: rise .9s var(--ease) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: none; }
+    }
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.85rem;
     }
     .brand {
       font-family: "Bebas Neue", sans-serif;
-      font-size: clamp(4.2rem, 12vw, 7.5rem);
+      font-size: clamp(4.4rem, 13vw, 8rem);
+      line-height: 0.88;
       letter-spacing: 0.04em;
-      line-height: 0.9;
       color: var(--sand);
-      text-wrap: balance;
-      animation: rise 0.9s var(--ease) both;
     }
     .tagline {
-      margin-top: 1.15rem;
-      font-size: clamp(1.05rem, 2.1vw, 1.3rem);
+      margin-top: 1.1rem;
+      font-size: clamp(1.05rem, 2.2vw, 1.28rem);
       font-weight: 500;
-      color: var(--text);
-      max-width: 28ch;
-      animation: rise 0.9s var(--ease) 0.12s both;
+      max-width: 32ch;
     }
-    .tagline em {
-      font-style: normal;
-      color: var(--ember);
-    }
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.85rem;
+    .tagline em { font-style: normal; color: var(--cyan); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.8rem; }
+    .stats {
+      display: flex; flex-wrap: wrap; gap: 1.25rem;
       margin-top: 2rem;
-      animation: rise 0.9s var(--ease) 0.22s both;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
     }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(22px); }
-      to { opacity: 1; transform: translateY(0); }
+    .stats div strong {
+      display: block;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.04em;
+      line-height: 1;
     }
+    .stats span { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      min-height: 3.1rem;
-      padding: 0.85rem 1.45rem;
-      border-radius: 4px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: 0.02em;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: transform 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease);
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 3rem; padding: 0.8rem 1.35rem;
+      border-radius: 10px; border: 1px solid transparent;
+      font-weight: 800; font-size: 0.92rem; cursor: pointer;
+      transition: transform .22s var(--ease), background .22s var(--ease), border-color .22s var(--ease);
     }
     .btn:hover { transform: translateY(-2px); }
     .btn-primary {
-      background: linear-gradient(135deg, var(--ember) 0%, var(--ember-deep) 100%);
-      color: #fff8f2;
-      box-shadow: 0 10px 28px rgba(232, 93, 42, 0.28);
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-dim));
+      color: #041410;
+      box-shadow: 0 12px 30px rgba(46, 230, 197, 0.22);
     }
-    .btn-primary:hover { background: linear-gradient(135deg, #ff6a33 0%, var(--ember) 100%); }
     .btn-ghost {
-      background: transparent;
+      background: rgba(255,255,255,0.03);
       border-color: var(--line);
       color: var(--sand);
     }
-    .btn-ghost:hover { border-color: var(--sand-dim); }
 
-    .scroll-cue {
-      position: absolute;
-      left: 50%;
-      bottom: 1.25rem;
-      transform: translateX(-50%);
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      animation: pulse 2.4s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.35; }
-      50% { opacity: 0.9; }
-    }
-
-    /* —— Sections —— */
-    section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
-    .section-head {
-      max-width: 36rem;
-      margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
-    }
-    .eyebrow {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 0.65rem;
-    }
+    section { padding: clamp(3.5rem, 8vw, 5.5rem) 0; }
+    .section-head { max-width: 40rem; margin-bottom: 1.8rem; }
     h2 {
       font-family: "Bebas Neue", sans-serif;
-      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-size: clamp(2.3rem, 5vw, 3.5rem);
       letter-spacing: 0.03em;
       line-height: 1;
       color: var(--sand);
     }
-    .section-head p {
-      margin-top: 0.85rem;
-      color: var(--muted);
-      font-size: 1.02rem;
-    }
+    .section-head p { margin-top: 0.75rem; color: var(--muted); }
 
-    .features {
-      background:
-        linear-gradient(180deg, #0c1014 0%, #111821 40%, #0c1014 100%);
-      border-block: 1px solid var(--line);
-    }
+    /* Features */
+    .features { background: linear-gradient(180deg, #070b10, #0d141c 50%, #070b10); }
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-    }
-    .feature {
-      padding: 1.35rem 1.3rem 1.45rem;
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      background: linear-gradient(160deg, rgba(26, 35, 46, 0.95), rgba(12, 16, 20, 0.65));
-      transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
-    }
-    .feature:hover {
-      border-color: rgba(232, 93, 42, 0.45);
-      transform: translateY(-3px);
-    }
-    .feature-num {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 2rem;
-      color: var(--ember);
-      letter-spacing: 0.04em;
-      line-height: 1;
-      margin-bottom: 0.55rem;
-    }
-    .feature h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-      color: var(--text);
-    }
-    .feature p {
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .showcase { background: var(--ink); }
-    .gallery {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr 1fr;
-      grid-template-rows: auto auto;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.85rem;
     }
-    .shot {
-      position: relative;
-      min-height: 180px;
-      border-radius: 6px;
+    .feature {
+      padding: 1.25rem;
       border: 1px solid var(--line);
-      background: var(--panel) center/cover no-repeat;
-      overflow: hidden;
-      display: grid;
-      align-items: end;
+      border-radius: 14px;
+      background: linear-gradient(165deg, var(--panel-2), rgba(7,11,16,0.4));
+      transition: border-color .2s var(--ease), transform .2s var(--ease);
     }
-    .shot.wide { grid-column: 1 / 2; grid-row: 1 / 3; min-height: 380px; }
-    .shot .cap {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      background: linear-gradient(180deg, transparent, rgba(8, 10, 14, 0.92));
-    }
-    .shot strong {
+    .feature:hover { border-color: rgba(46,230,197,0.45); transform: translateY(-3px); }
+    .feature b {
       display: block;
       font-family: "Bebas Neue", sans-serif;
-      font-size: 1.35rem;
-      letter-spacing: 0.04em;
-      color: var(--sand);
-      margin-bottom: 0.15rem;
+      color: var(--cyan);
+      font-size: 1.5rem;
+      margin-bottom: 0.4rem;
     }
-    .shot span {
-      color: var(--muted);
-      font-size: 0.85rem;
+    .feature h3 { font-size: 1rem; margin-bottom: 0.35rem; }
+    .feature p { color: var(--muted); font-size: 0.9rem; }
+
+    /* Rules */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+      align-items: stretch;
     }
-    .trailer-wrap {
-      margin-top: 1.25rem;
+    .rule-card, .panel {
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 16px;
+      background: var(--panel);
       overflow: hidden;
-      background: #000;
     }
-    .trailer-wrap video {
-      display: block;
+    .rule-card img, .panel img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+    .rule-body { padding: 1.25rem 1.35rem 1.5rem; }
+    .rule-body h3 { margin-bottom: 0.55rem; font-size: 1.15rem; }
+    .rule-body ol, .rule-body ul {
+      padding-inline-start: 1.15rem;
+      color: var(--muted);
+      display: grid;
+      gap: 0.45rem;
+      font-size: 0.94rem;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+    .chip {
+      font-size: 0.75rem; font-weight: 700;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--cyan);
+      background: rgba(46,230,197,0.08);
+    }
+
+    /* Offers */
+    .offers { background: #0a1016; border-block: 1px solid var(--line); }
+    .offer-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr 1fr;
+      gap: 0.85rem;
+    }
+    .offer {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(160deg, #1a2430, #101820);
+      padding: 1.25rem;
+      display: grid;
+      gap: 0.55rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .offer.featured {
+      background:
+        radial-gradient(500px 200px at 100% 0%, rgba(232,93,42,0.22), transparent 55%),
+        linear-gradient(160deg, #241812, #141018);
+      border-color: rgba(232,93,42,0.4);
+    }
+    .offer .price {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 0.03em;
+    }
+    .offer .was {
+      color: var(--muted);
+      text-decoration: line-through;
+      font-size: 0.9rem;
+      margin-inline-start: 0.4rem;
+    }
+    .offer p { color: var(--muted); font-size: 0.9rem; }
+    .badge {
+      position: absolute; top: 1rem; inset-inline-end: 1rem;
+      font-size: 0.7rem; font-weight: 800;
+      padding: 0.3rem 0.55rem;
+      border-radius: 999px;
+      background: var(--ember);
+      color: #fff;
+    }
+
+    /* Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 0.7rem;
+    }
+    .g {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      min-height: 160px;
+      background: #0c1218 center/cover no-repeat;
+    }
+    .g::after {
+      content: attr(data-label);
+      position: absolute; inset-inline: 0; bottom: 0;
+      padding: 1.4rem 0.85rem 0.75rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.88));
+      font-size: 0.82rem; font-weight: 700; color: var(--sand);
+    }
+    .g.a { grid-column: span 7; grid-row: span 2; min-height: 360px; }
+    .g.b { grid-column: span 5; min-height: 175px; }
+    .g.c { grid-column: span 5; min-height: 175px; }
+    .g.d, .g.e, .g.f, .g.g, .g.h { grid-column: span 3; min-height: 180px; }
+    .g.i, .g.j { grid-column: span 6; min-height: 200px; }
+
+    .trailer {
+      margin-top: 1.1rem;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #000;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .trailer video {
       width: 100%;
-      max-height: 480px;
+      max-height: 560px;
       object-fit: contain;
       background: #000;
     }
 
-    .cta {
-      background:
-        radial-gradient(600px 240px at 50% 0%, rgba(232, 93, 42, 0.22), transparent 70%),
-        linear-gradient(180deg, #121820, var(--ink));
-      border-top: 1px solid var(--line);
+    /* Monsters strip */
+    .monster-row {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0.65rem;
     }
+    .monster {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      transition: transform .2s var(--ease);
+    }
+    .monster:hover { transform: translateY(-4px) scale(1.02); }
+    .monster img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+    .monster span {
+      display: block;
+      padding: 0.55rem 0.65rem 0.7rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    /* CTA */
     .cta-box {
       display: grid;
+      grid-template-columns: 1.3fr auto;
       gap: 1.25rem;
       align-items: center;
-      padding: clamp(1.75rem, 4vw, 2.5rem);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(26, 35, 46, 0.55);
+      padding: clamp(1.5rem, 4vw, 2.4rem);
+      border-radius: 18px;
+      border: 1px solid rgba(46,230,197,0.28);
+      background:
+        radial-gradient(500px 200px at 0% 0%, rgba(46,230,197,0.16), transparent 60%),
+        var(--panel);
     }
-    .cta-box h2 { max-width: 14ch; }
-    .cta-box p { color: var(--muted); max-width: 42ch; }
+    .cta-box p { color: var(--muted); margin-top: 0.5rem; max-width: 46ch; }
 
     footer {
-      padding: 1.5rem 0 2.25rem;
+      padding: 1.5rem 0 2.2rem;
       border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: 0.85rem;
     }
-    footer .wrap {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 0.75rem;
-    }
-    footer strong { color: var(--sand-dim); font-weight: 600; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
+    footer strong { color: var(--sand); }
 
-    @media (max-width: 860px) {
-      .feature-grid { grid-template-columns: 1fr; }
-      .gallery {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-      }
-      .shot.wide {
-        grid-column: 1 / -1;
-        grid-row: auto;
-        min-height: 240px;
-      }
+    @media (max-width: 980px) {
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .rules-grid, .offer-grid, .cta-box { grid-template-columns: 1fr; }
+      .monster-row { grid-template-columns: repeat(3, 1fr); }
+      .g.a { grid-column: span 12; min-height: 260px; }
+      .g.b, .g.c, .g.i, .g.j { grid-column: span 6; }
+      .g.d, .g.e, .g.f, .g.g, .g.h { grid-column: span 4; }
     }
-    @media (max-width: 560px) {
-      .wrap { width: min(var(--max), calc(100% - 1.5rem)); }
-      .hero-inner { max-width: none; }
-      .gallery { grid-template-columns: 1fr; }
+    @media (max-width: 720px) {
+      .nav-toggle { display: inline-flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: var(--nav-h);
+        inset-inline: 0;
+        background: rgba(7,11,16,0.96);
+        border-bottom: 1px solid var(--line);
+        padding: 0.75rem;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .nav-links.open { display: flex; }
+      .feature-grid, .monster-row { grid-template-columns: 1fr 1fr; }
+      .g.b, .g.c, .g.d, .g.e, .g.f, .g.g, .g.h, .g.i, .g.j { grid-column: span 12; }
       .btn { width: 100%; }
       .hero-actions { flex-direction: column; }
     }
-
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
-  <header class="hero" id="top">
-    <div class="hero-orb" aria-hidden="true"></div>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="#top">Rival Chaos</a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu">Menu</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#features">Features</a>
+        <a href="#rules">Rules</a>
+        <a href="#offers">Offers</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#trailer">Trailer</a>
+        <a href="#monsters">Cards</a>
+        <a class="nav-cta" href="#acquire">Acquire Asset</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-media">
+      <video autoplay muted loop playsinline poster="media/ui-menu.jpg">
+        <source src="media/gameplay-trailer.mp4" type="video/mp4" />
+      </video>
+    </div>
     <div class="wrap hero-inner">
+      <p class="eyebrow">Turnkey · PC + Android · v2.3.52</p>
       <h1 class="brand">Rival Chaos</h1>
-      <p class="tagline">
-        A turnkey 3D card battler built to launch —
-        <em>collect, duel, dominate</em>.
-      </p>
+      <p class="tagline">A finished 3D card battler ready to launch — <em>collect, duel, dominate</em>.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#acquire">Request Access / Acquire Asset</a>
-        <a class="btn btn-ghost" href="#features">Explore features</a>
+        <a class="btn btn-ghost" href="#trailer">Watch gameplay</a>
+      </div>
+      <div class="stats">
+        <div><strong>504</strong><span>Unique cards</span></div>
+        <div><strong>2</strong><span>Platforms</span></div>
+        <div><strong>AR/EN</strong><span>Localization</span></div>
+        <div><strong>PvP</strong><span>Stake matchmaking</span></div>
       </div>
     </div>
-    <div class="scroll-cue" aria-hidden="true">Scroll</div>
-  </header>
+  </section>
 
   <main>
     <section class="features" id="features">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Why operators buy this</p>
-          <h2>Built to convert players — and buyers</h2>
-          <p>A finished dual-platform card game shell with deep content, competitive loops, and monetization-ready systems.</p>
+          <p class="eyebrow">Product highlights</p>
+          <h2>Everything a buyer wants to see</h2>
+          <p>Deep content, dual builds, competitive loops, and a monetization-ready shop — already playable.</p>
         </div>
         <div class="feature-grid">
           <article class="feature">
-            <div class="feature-num">01</div>
-            <h3>500+ unique 3D cards</h3>
-            <p>A massive catalog of monsters, spells, and traps with production art and duel-ready stats — content depth that usually takes years.</p>
+            <b>01</b>
+            <h3>500+ 3D cards</h3>
+            <p>420 monsters, 60 spells, 24 traps with art packs, rarity tiers, and gallery filters.</p>
           </article>
           <article class="feature">
-            <div class="feature-num">02</div>
-            <h3>Dual PC &amp; Android builds</h3>
-            <p>Ship on Windows portable EXE and Android APK from one shared game core — faster updates, wider reach.</p>
+            <b>02</b>
+            <h3>PC &amp; Android</h3>
+            <p>Electron portable EXE + Capacitor APK from one shared web game core.</p>
           </article>
           <article class="feature">
-            <div class="feature-num">03</div>
-            <h3>Localization system</h3>
-            <p>Arabic &amp; English live in-product, with a structured i18n layer ready to expand into additional markets.</p>
+            <b>03</b>
+            <h3>AR + EN UI</h3>
+            <p>Full bilingual interface and card text — MENA-ready with expansion hooks.</p>
           </article>
           <article class="feature">
-            <div class="feature-num">04</div>
-            <h3>PvP matchmaking</h3>
-            <p>Level-based matchmaking with standard and high-stakes modes — competitive pressure that keeps sessions sticky.</p>
+            <b>04</b>
+            <h3>PvP stakes</h3>
+            <p>Level-based matchmaking with 1K and 5K stake modes, 30s turns, card rewards.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="showcase" id="showcase">
+    <section id="rules">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">How it plays</p>
+          <h2>Rules &amp; game loop</h2>
+          <p>Clear competitive systems buyers can demo instantly — campaign rivals + stake PvP.</p>
+        </div>
+        <div class="rules-grid">
+          <article class="rule-card">
+            <img src="media/ui-pvp.jpg" alt="PvP matchmaking stakes screen" width="1200" height="700" loading="lazy" />
+            <div class="rule-body">
+              <h3>PvP matchmaking</h3>
+              <ol>
+                <li>Find an opponent near your level (or slightly higher).</li>
+                <li>Pay stake coins to start — Standard <strong>1,000 → 2,000</strong> or High <strong>5,000 → 10,000</strong>.</li>
+                <li>Turns are timed at <strong>30 seconds</strong>.</li>
+                <li>Win = double stake coins + a card reward (common / rare / epic odds scale with stake).</li>
+              </ol>
+              <div class="chips">
+                <span class="chip">Level-based match</span>
+                <span class="chip">30s turns</span>
+                <span class="chip">Card rewards</span>
+              </div>
+            </div>
+          </article>
+          <article class="rule-card">
+            <img src="media/ui-menu.jpg" alt="Main menu campaign and modes" width="1200" height="700" loading="lazy" />
+            <div class="rule-body">
+              <h3>Campaign &amp; energy</h3>
+              <ul>
+                <li><strong>Choose Rival</strong> — climb world stages with rising AI difficulty.</li>
+                <li><strong>Battery</strong> — 100 base energy, −10 per duel, regenerates over time.</li>
+                <li><strong>Deck building</strong> — build from owned cards (55-slot style deck tools).</li>
+                <li><strong>Progression</strong> — XP, titles, achievements unlock rewards.</li>
+              </ul>
+              <div class="chips">
+                <span class="chip">AI rivals</span>
+                <span class="chip">Battery pacing</span>
+                <span class="chip">Achievements</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="offers" id="offers">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Monetization surface</p>
+          <h2>Shop offers &amp; economy</h2>
+          <p>Live offer UI already designed — Quartz packs, legendary bundles, cosmetics, battery, daily rewards.</p>
+        </div>
+        <div class="offer-grid">
+          <article class="offer featured">
+            <span class="badge">−10%</span>
+            <h3>Legendary login offer</h3>
+            <p class="price">$71.1 <span class="was">$79</span></p>
+            <p>Beast Lord style legendary bundle with 4 cards — shown on entry with “Buy” / “To Shop” CTAs.</p>
+            <div class="chips">
+              <span class="chip">Featured modal</span>
+              <span class="chip">Bundle cards</span>
+            </div>
+          </article>
+          <article class="offer">
+            <h3>Bahamoth featured</h3>
+            <p class="price">$79 <span class="was">$99</span></p>
+            <p>Seasonal / featured offer path with premium monster focus and quartz economy hooks.</p>
+          </article>
+          <article class="offer">
+            <h3>Quartz + cosmetics</h3>
+            <p class="price">$4.9+</p>
+            <p>Multi-tier Quartz packs (+10% bonus design), wing frames, name styles, battery packs, VPN plan flag.</p>
+          </article>
+        </div>
+        <div style="margin-top:1rem" class="panel">
+          <img src="media/ui-offer.jpg" alt="In-game legendary offer popup" width="1400" height="800" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow">Visual proof</p>
-          <h2>Gameplay &amp; 3D showcase</h2>
-          <p>Real captures from Rival Chaos — menu, 500+ card gallery, featured monsters, and a short gameplay trailer.</p>
+          <h2>Gallery</h2>
+          <p>Real captures from inside Rival Chaos — UI, modes, and card art.</p>
         </div>
-        <div class="gallery" aria-label="Rival Chaos showcase gallery">
-          <div class="shot wide" style="background-image:url('media/ui-gallery.jpg')">
-            <div class="cap">
-              <strong>Card Gallery — 501 cards</strong>
-              <span>Full catalog with rarity &amp; element filters</span>
-            </div>
-          </div>
-          <div class="shot" style="background-image:url('media/monster-01.jpg')">
-            <div class="cap">
-              <strong>Bahamoth</strong>
-              <span>Featured legendary / season offer</span>
-            </div>
-          </div>
-          <div class="shot" style="background-image:url('media/monster-03.jpg')">
-            <div class="cap">
-              <strong>Cable Hydra</strong>
-              <span>Legendary monster art</span>
-            </div>
-          </div>
-          <div class="shot" style="background-image:url('media/ui-menu.jpg')">
-            <div class="cap">
-              <strong>Main Menu</strong>
-              <span>Campaign · PvP · Shop · Cosmetics</span>
-            </div>
-          </div>
-          <div class="shot" style="background-image:url('media/ui-daily.jpg')">
-            <div class="cap">
-              <strong>Daily Rewards</strong>
-              <span>Retention loop · coins &amp; quartz</span>
-            </div>
-          </div>
+        <div class="gallery-grid">
+          <div class="g a" style="background-image:url('media/ui-gallery.jpg')" data-label="Card Gallery · 501 cards filtered"></div>
+          <div class="g b" style="background-image:url('media/ui-menu.jpg')" data-label="Main menu · campaign + PvP"></div>
+          <div class="g c" style="background-image:url('media/ui-pvp.jpg')" data-label="PvP stakes · 1K / 5K"></div>
+          <div class="g d" style="background-image:url('media/monster-01.jpg')" data-label="Bahamoth"></div>
+          <div class="g e" style="background-image:url('media/monster-03.jpg')" data-label="Cable Hydra"></div>
+          <div class="g f" style="background-image:url('media/monster-07.jpg')" data-label="Titan"></div>
+          <div class="g g" style="background-image:url('media/monster-04.jpg')" data-label="Apex"></div>
+          <div class="g h" style="background-image:url('media/ui-daily.jpg')" data-label="Daily login rewards"></div>
+          <div class="g i" style="background-image:url('media/ui-battle-01.jpg')" data-label="Gameplay capture"></div>
+          <div class="g j" style="background-image:url('media/ui-offer.jpg')" data-label="Legendary offer UI"></div>
         </div>
-        <div class="trailer-wrap">
+      </div>
+    </section>
+
+    <section id="trailer">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Motion</p>
+          <h2>Gameplay trailer</h2>
+          <p>H.264 web-ready clip — autoplays muted in the hero, plays with controls here.</p>
+        </div>
+        <div class="trailer">
           <video controls playsinline preload="metadata" poster="media/ui-menu.jpg">
             <source src="media/gameplay-trailer.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
           </video>
         </div>
       </div>
     </section>
 
-    <section class="cta" id="acquire">
+    <section id="monsters">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Roster depth</p>
+          <h2>Featured card art</h2>
+          <p>A slice of the legendary / epic monster catalog included in the asset.</p>
+        </div>
+        <div class="monster-row">
+          <div class="monster"><img src="media/monster-01.jpg" alt="Bahamoth" loading="lazy" /><span>Bahamoth</span></div>
+          <div class="monster"><img src="media/monster-03.jpg" alt="Cable Hydra" loading="lazy" /><span>Cable Hydra</span></div>
+          <div class="monster"><img src="media/monster-07.jpg" alt="Titan" loading="lazy" /><span>Titan</span></div>
+          <div class="monster"><img src="media/monster-09.jpg" alt="Beastlord" loading="lazy" /><span>Beastlord</span></div>
+          <div class="monster"><img src="media/monster-05.jpg" alt="Fornaus" loading="lazy" /><span>Fornaus</span></div>
+          <div class="monster"><img src="media/monster-12.jpg" alt="Iron Colossus" loading="lazy" /><span>Iron Colossus</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="acquire">
       <div class="wrap">
         <div class="cta-box">
           <div>
             <p class="eyebrow">Acquisition</p>
             <h2>Ready for Escrow transfer</h2>
-            <p>
-              Source, dual build pipelines, card economy, voice pack, and sale documentation included.
-              Serious buyers: request access for a private demo and asset package.
-            </p>
+            <p>Source, dual build pipelines, 504-card catalog, voice pack, shop systems, and sale docs included. Request access for a private demo.</p>
           </div>
-          <div class="hero-actions">
+          <div class="hero-actions" style="margin:0">
             <a class="btn btn-primary" href="mailto:hello@rivalchaos.game?subject=Rival%20Chaos%20Acquire%20Asset">Request Access / Acquire Asset</a>
-            <a class="btn btn-ghost" href="#features">See key features</a>
+            <a class="btn btn-ghost" href="#gallery">Browse gallery</a>
           </div>
         </div>
       </div>
@@ -464,8 +648,28 @@
   <footer>
     <div class="wrap">
       <p><strong>Rival Chaos</strong> — turnkey 3D card duel game</p>
-      <p>PC · Android · 500+ cards · AR/EN</p>
+      <p>PC · Android · 504 cards · AR/EN · v2.3.52</p>
     </div>
   </footer>
+
+  <script>
+    const toggle = document.getElementById("navToggle");
+    const links = document.getElementById("navLinks");
+    toggle?.addEventListener("click", () => links.classList.toggle("open"));
+    links?.querySelectorAll("a").forEach((a) => {
+      a.addEventListener("click", () => links.classList.remove("open"));
+    });
+
+    const sections = [...document.querySelectorAll("section[id]")];
+    const navAnchors = [...document.querySelectorAll(".nav-links a[href^='#']")];
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id;
+        navAnchors.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
+      });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0.01 });
+    sections.forEach((s) => io.observe(s));
+  </script>
 </body>
 </html>
